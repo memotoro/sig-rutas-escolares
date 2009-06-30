@@ -1,0 +1,42 @@
+/*
+programado por:
+Guillermo Antonio Toro Bayona
+Ing. Catastral y Geodesta
+Especialista en SIG
+*/
+.formato1
+{
+font-family:Verdana;
+font-size:30;
+text-align:center;
+font-stretch:wider;
+color:Black;
+}
+
+.formato2
+{
+font-family:Verdana;
+font-size:15;
+text-align:left;
+color:Black;
+}
+
+.formato3
+{
+font-family:Verdana;
+font-size:20;
+text-align:center;
+font-stretch:ultra-expanded;
+color:Green;
+}
+
+.cuerpo1
+{
+background-color:Lightyellow;
+}
+
+.borde1
+{
+border-style: ridge;
+border-width: 7px;
+}

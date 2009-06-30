@@ -1,0 +1,364 @@
+MAP 
+
+	NAME			Seguimiento_Rutas_Escolares
+	IMAGETYPE     	png
+	SIZE           	800 800
+	IMAGECOLOR     	255 255 255
+	TRANSPARENT		true
+	EXTENT			-74.1895 4.5905 -74.1165 4.6690
+	UNITS 			dd
+	SHAPEPATH      	"..\datos\imagenes"
+	SYMBOLSET      	"..\simbolos\symbols.sym"
+	CONFIG 			PROJ_LIB "C:\ms4w\apps\sig-sre\proyecciones"
+
+	
+	PROJECTION
+		"init=EPSG:4326"    
+	END
+
+	
+	OUTPUTFORMAT
+		NAME 		png
+		DRIVER 		"GD/PNG"
+		MIMETYPE 	"image/png"
+		IMAGEMODE 	RGB
+		EXTENSION 	"png"
+	END
+  
+  
+	REFERENCE
+		EXTENT 			-74.1895 4.5905 -74.1165 4.6690
+		IMAGE 			"..\datos\imagenes\MAPA_CONTEXTO.JPEG"
+		SIZE 			200 200
+		COLOR 			255 255 255
+	END 
+  
+  
+	WEB
+		METADATA
+			"ows_schemas_location" 				"http://schemas.opengeospatial.net"
+			"wms_title" 						"WMS DE SEGUIMIENTO DE RUTAS ESCOLARES"
+			"wms_abstract" 						"WMS QUE CONTIENE LA INFORMACIÓN DE LAS POSICIONES DE LAS RUTAS ESCOLARES"
+			"wms_keywordlist" 					"WMS,GPS"
+			"wms_onlineresource" 				"http://127.0.0.1/cgi-bin/mapserv.exe?map=c:\ms4w\apps\sig-sre\mapa\sig-sre-wms-1.map"
+			"wms_fees" 							"NONE"
+			"wms_accessconstraints" 			"NONE"
+			"wms_contactperson" 				"GUILLERMO TORO - YARIMA RODRIGUEZ"
+			"wms_contactorganization" 			"NONE"
+			"wms_contactposition" 				"NONE"
+			"wms_addresstype" 					"NONE"
+			"wms_address"     					"NONE"
+			"wms_city" 							"BOGOTA"
+			"wms_stateorprovince" 				"CUNDINAMARCA"
+			"wms_postcode" 						"1"
+			"wms_country" 						"57"
+			"wms_contactvoicetelephone" 		""
+			"wms_contactelectronicmailaddress" 	"memo.toro@gmail.com - yarimarp@hotmail.com"
+			"wms_srs" 							"EPSG:4326"
+			"max_extents" 						"-74.1895,4.5905,-74.1165,4.6690"
+			"version" 							"any string"
+		END
+	END
+  
+  
+	LAYER
+		NAME 		"IMAGEN"
+		DATA 		"mosaico.img"
+		STATUS 		on
+		TYPE 		raster
+		METADATA 
+			"wms_name" 				"IMAGEN"
+			"wms_title" 			"IMAGEN DE KENNEDY"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"			
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"			
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 	"template.html"
+		DUMP 		true
+		CLASS
+			NAME 	"IMAGEN DE KENNEDY"
+		END
+	END
+ 
+ 
+	LAYER
+		NAME 			"LOCALIDAD"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from localidad"
+		STATUS 			on
+		TYPE 			line
+		TRANSPARENCY	80
+		METADATA
+			"wms_name" 				"LOCALIDAD"
+			"wms_title" 			"LIMITE DE LA LOCALIDAD DE KENNEDY"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"NOMBRE,CODIGO"
+			"queryable" 			"true"
+			"searchfield" 			"NOMBRE"
+			"fields" 				"NOMBRE:NOMBRE,CODIGO:CODIGO"
+			"opacity"				"80"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE	"template.html"
+		DUMP 		true
+		CLASS
+			NAME 	"LIMITE DE LA LOCALIDAD"
+		    STYLE
+				SYMBOL			"CUADRADO_1"
+				COLOR 	170 0 255
+			    SIZE 			2
+		    END
+		END
+	END
+ 
+ 
+	LAYER
+		NAME 			"MANZANA"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from manzana"
+		STATUS 			on
+		TYPE 			polygon 
+		TRANSPARENCY	40
+		MAXSCALE 		6000
+		METADATA
+			"wms_name" 				"MANZANA"
+			"wms_title" 			"MANZANAS DE LA LOCALIDAD DE KENNEDY"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"CODIGO"
+			#"queryable" 			"true"
+			#"searchfield" 			"CODIGO"
+			#"fields" 				"CODIGO:CODIGO"
+			"opacity"				"40"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"		
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 	"template.html"
+		DUMP 		true
+		CLASS
+			NAME 	"MANZANA"
+			STYLE
+				OUTLINECOLOR 	0 0 0
+				COLOR 			0 255 0
+			END    
+		END
+	END
+ 
+
+	LAYER
+		NAME 			"LOTE"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from lote"
+		STATUS 			on
+		TYPE 			polygon 
+		TRANSPARENCY	70
+		MAXSCALE 		3000
+		METADATA
+			"wms_name" 				"LOTE"
+			"wms_title" 			"LOTES DE LA LOCALIDAD DE KENNEDY"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"NUM_LOTE"
+			#"queryable" 			"true"
+			#"searchfield" 			"NUM_LOTE"
+			#"fields" 				"NUM_LOTE:NUM_LOTE,AREA:AREA"
+			"opacity"				"70"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"		
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 	"template.html"
+		DUMP 		true
+		CLASS
+			NAME 	"LOTE"
+			STYLE
+				SYMBOL 			"HACHURADO"
+				SIZE 			5
+				OUTLINECOLOR 	255 0 0
+				COLOR 			255 0 0
+			END
+		END
+	END
+ 
+ 
+ 	LAYER
+		NAME 			"SITIOS DE INTERES"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from sitios_interes"
+		STATUS 			on
+		TYPE 			polygon 
+		TRANSPARENCY	60
+		MAXSCALE 		6000
+		METADATA
+			"wms_name" 				"SITIOS_INTERES"
+			"wms_title" 			"SITIOS DE INTERES DE LA LOCALIDAD DE KENNEDY"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"NOMBRE"
+			"queryable" 			"true"
+			"searchfield" 			"NOMBRE"
+			"fields" 				"NOMBRE:NOMBRE DEL SITIO"
+			"opacity"				"60"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"		
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 	"template.html"
+		DUMP 		true
+		CLASS
+			NAME 	"SITIOS DE INTERES"
+			STYLE
+				OUTLINECOLOR 	0 0 0
+				COLOR 			0 0 255
+			END
+		END 
+	END
+ 
+ 
+	LAYER
+		NAME 			"MALLA VIAL"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from malla_vial"
+		STATUS 			on
+		TYPE 			line 
+		TRANSPARENCY	90
+		MAXSCALE 		6000
+		METADATA
+			"wms_name" 				"MALLA_VIAL"
+			"wms_title" 			"VIAS DE LA LOCALIDAD DE KENNEDY"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"NOMBRE,CODIGO"
+			"queryable" 			"true"
+			"searchfield" 			"NOMBRE_VIA"
+			"fields" 				"NOMBRE_VIA:NOMBRE DE LA VIA,NOMENCLATU:NOMENCLATURA"
+			"opacity"				"90"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 		"template.html"
+		DUMP		 	true
+		CLASS
+			NAME 		"MALLA VIAL DE KENNEDY"
+		    STYLE
+			    COLOR 	0 0 0
+			    SYMBOL 	"PUNTO"
+			    SIZE 	4
+		    END
+		    STYLE
+			    COLOR 	255 0 0
+			    SYMBOL 	"PUNTO"
+			    SIZE 	2
+		    END	
+		END
+	END
+ 
+ 
+ 	LAYER
+		NAME 			"RECORRIDO"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from recorrido"
+		FILTER 			"nombre_rec='RUTA No 1'"
+		STATUS 			on
+		TYPE 			line 
+		TRANSPARENCY	80
+		MAXSCALE 		6000
+		METADATA
+			"wms_name" 				"RECORRIDO"
+			"wms_title" 			"RECORRIDO DE LA RUTA"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"NOMBRE,CODIGO"
+			#"queryable" 			"true"
+			#"searchfield" 			"NUM_RECORR"
+			#"fields" 				"NOMBRE_REC:NOMBRE DEL RECORRIDO,NUM_RECORR:NUMERO DE RECORRIDO"
+			"opacity"				"80"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 		"template.html"
+		DUMP		 	true
+		CLASS
+			NAME 		"RECORRIDO ASIGNADO"
+		    STYLE
+			    COLOR 	0 0 0
+			    SYMBOL 	"PUNTO"
+			    SIZE 	4
+		    END
+		    STYLE
+			    COLOR 	255 255 0
+			    SYMBOL 	"PUNTO"
+			    SIZE 	2
+		    END
+		    STYLE
+			    COLOR 	0 0 0
+			    SYMBOL 	"LINEA"
+			    SIZE 	1
+		    END
+		END
+	END
+ 
+ 
+	LAYER
+		NAME 			"POSICION"
+		CONNECTIONTYPE	postgis
+		CONNECTION		"host=127.0.0.1 dbname=sre user=usuario_consulta password=usuario_consulta port=5432"
+		DATA 			"the_geom from posicion"
+		FILTER 			"serial_gps='$GPGGA'"
+		STATUS 			on
+		TYPE 			point 
+		METADATA
+			"wms_name" 				"POSICION"
+			"wms_title" 			"POSICIONES DE LA RUTA"
+			"wms_extent" 			"-74.1895 4.5905 -74.1165 4.6690"
+			"wms_srs" 				"EPSG:4326"
+			"gml_include_items" 	"LATITUD,LONGITUD,FECHA"
+			"queryable" 			"true"
+			"searchfield" 			"FECHA"
+			"fields" 				"LATITUD:LATITUD,LONGITUD:LONGITUD,FECHA:FECHA"
+			"tile_source"			"redraw"
+			"refresh_interval"		"0"
+		END
+		PROJECTION
+			"init=EPSG:4326"
+		END
+		TEMPLATE 		"template.html"
+		DUMP 			true
+		CLASS
+			NAME 		"POSICION DE LA RUTA"
+			STYLE
+				SYMBOL 		"RUTA"
+				SIZE 		20
+			END
+		END
+	END
+	
+END
